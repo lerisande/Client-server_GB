@@ -15,6 +15,8 @@ final class AllGroupsController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
     
+    let searchGroupsAPI = SearchGroupsAPI()
+    
     var groups: [GroupModel] = [] {
         didSet {
             groupsDuplicate = groups
@@ -26,6 +28,8 @@ final class AllGroupsController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchGroupsAPI.searchGroups { groups in }
         
         groups = GroupStorage().allGroups
         
@@ -69,6 +73,7 @@ extension AllGroupsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "addThisGroup", sender: self)
     }
 }
 
