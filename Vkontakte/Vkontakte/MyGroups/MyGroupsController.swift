@@ -14,6 +14,8 @@ final class MyGroupsController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
     
+    let groupsAPI = GroupsAPI()
+    
     var groups: [GroupModel] = [] {
         didSet {
             groupsDuplicate = groups
@@ -25,6 +27,8 @@ final class MyGroupsController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        groupsAPI.getGroups { groups in }
         
         let storage = GroupStorage()
         groups = storage.groups
@@ -44,18 +48,16 @@ final class MyGroupsController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addGroup" {
-            segue.destination.title = "Мои группы"
+            segue.destination.title = "Все группы"
         }
     }
     
-    @IBAction func addGroup(_ segue: UIStoryboardSegue){
+    @IBAction func addGroup (segue: UIStoryboardSegue){
         guard
-            segue.identifier == "addGroup",
+            segue.identifier == "addThisGroup",
             let sourceController = segue.source as? AllGroupsController,
             let indexPath = sourceController.tableView.indexPathForSelectedRow
-        else {
-            return
-        }
+        else { return }
         let group = sourceController.groups[indexPath.row]
         
         if !groups.contains(where: {$0.name == group.name}) {
