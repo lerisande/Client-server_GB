@@ -10,6 +10,7 @@ import Alamofire
 
 class SearchGroupsAPI {
     
+    // базовый URL сервиса
     let scheme = "https://"
     let baseUrl = "api.vk.com/method"
     
@@ -17,10 +18,11 @@ class SearchGroupsAPI {
     let clientId = MySession.shared.userId
     let version = "5.81"
     
+    // метод для загрузки данных
     func searchGroups (competion: @escaping([GroupModel]?)->()) {
-        
+        //название метода API
         let method = "/groups.search"
-        
+        // параметры, id клиента, токен, версия
         let parameters: Parameters = [
             "count": 10,
             "type": "group",
@@ -30,6 +32,7 @@ class SearchGroupsAPI {
             "q": "AnimalPlanet"
         ]
         
+        // составляем URL из базового адреса сервиса и метода API
         let url = scheme + baseUrl + method
         
         AF.request(url, method: .get, parameters: parameters).responseJSON { response in

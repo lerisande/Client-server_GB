@@ -10,6 +10,7 @@ import Alamofire
 
 class PhotosAPI {
     
+    // базовый URL сервиса
     let scheme = "https://"
     let baseUrl = "api.vk.com/method"
     
@@ -17,10 +18,11 @@ class PhotosAPI {
     let clientId = MySession.shared.userId
     let version = "5.81"
     
-    func getPhotos (completion: @escaping([FriendModel]?)->())  {
-        
+    // метод для загрузки данных
+    func getPhotos (completion: @escaping([PhotoList]?)->())  {
+        //название метода API
         let method = "/photos.getAll"
-        
+        // параметры, id клиента, токен, версия
         let parameters: Parameters = [
             "owner_id": clientId,
             "extended": 1,
@@ -30,13 +32,39 @@ class PhotosAPI {
             "skip_hidden": 1,
             "access_token": token,
             "v": version
-            
         ]
         
+        // составляем URL из базового адреса сервиса и метода API
         let url = scheme + baseUrl + method
         
+        // делаем запрос
         AF.request(url, method: .get, parameters: parameters).responseJSON { response in
-            print(response.result)
+            do {
+                // распаковываем response.data в data и если все нормально то идем дальше (оператор раннего выхода)
+                guard let data = response.data else { return }
+                // получили объект вложенный состоящий еще с двух подобъектов
+                let photoResponse = try? JSONDecoder().decode(PhotoResponse.self, from: data)
+                // вытащили friends
+                let photos = photoResponse?.response.items
+                
+                completion(photos)
+            }
+            catch DecodingError.keyNotFound(let key, let context) {
+                Swift.print("could not find key \(key) in JSON: \(context.debugDescription)")
+            }
+            catch DecodingError.valueNotFound(let type, let context) {
+                Swift.print("could not find type \(type) in JSON: \(context.debugDescription)")
+            }
+            catch DecodingError.typeMismatch(let type, let context) {
+                Swift.print("type mismatch for type \(type) in JSON: \(context.debugDescription)")
+            }
+            catch DecodingError.dataCorrupted(let context) {
+                Swift.print("data found to be corrupted in JSON: \(context.debugDescription)")
+            }
+            catch let error as NSError {
+                NSLog("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
+            }
+            
         }
         
     }

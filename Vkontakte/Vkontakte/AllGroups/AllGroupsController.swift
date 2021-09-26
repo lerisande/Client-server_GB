@@ -22,6 +22,7 @@ final class AllGroupsController: UIViewController {
             groupsDuplicate = groups
         }
     }
+    
     var groupsDuplicate:[GroupModel] = []
     
     // MARK: Life cycle

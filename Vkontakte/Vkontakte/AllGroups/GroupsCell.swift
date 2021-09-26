@@ -23,6 +23,7 @@ final class GroupsCell: UITableViewCell {
             groupAvatar.addGestureRecognizer(tapRecognizer)
         }
     }
+    
     @IBOutlet var groupName: UILabel!
     
     override func awakeFromNib() {

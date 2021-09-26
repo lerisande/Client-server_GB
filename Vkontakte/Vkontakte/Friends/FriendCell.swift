@@ -24,8 +24,8 @@ final class FriendCell: UITableViewCell {
         }
     }
     
-    @IBOutlet var friendName: UILabel!
-
+    @IBOutlet var friendFirstName: UILabel!
+    @IBOutlet var friendLastName: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -43,9 +43,11 @@ final class FriendCell: UITableViewCell {
     
     // MARK: Configure
     
-   func configure(name: String, image: UIImage) {
-        friendAvatar.image = image
-        friendName.text = name
+    func configure(friend: FriendList) {
+        //self.friendFirstName.text = "\(friend.firstName) \(friend.lastName)"
+        //friendAvatar.image = UIImage(named: friend.photo)
+//        friendAvatar.image = image
+//        friendName.text = name
     }
     
     private func setupView() {
@@ -53,7 +55,6 @@ final class FriendCell: UITableViewCell {
         friendAvatar.clipsToBounds = true
         friendAvatar.layer.borderWidth = 1
         friendAvatar.layer.borderColor = UIColor.black.cgColor
-        
     }
     
     // добавляем анимацию по тапу на аватар друга

@@ -1,5 +1,5 @@
 //
-//  WKWebViewController.swift
+//  CustomWebViewController.swift
 //  Vkontakte
 //
 //  Created by Lera on 21.09.21.
@@ -76,8 +76,17 @@ extension CustomWebViewController: WKNavigationDelegate {
         MySession.shared.token = token
         MySession.shared.userId = userId
         
+        print("""
+        =================================================================================
+        =================================================================================
+        """)
         print("My token is \(token)")
-        print("Mu userID is \(userId)")
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print("My userID is \(userId)")
+        print("""
+        =================================================================================
+        =================================================================================
+        """)
         
         performSegue(withIdentifier: "toTabBar", sender: self)
         decisionHandler(.cancel)
