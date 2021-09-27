@@ -12,7 +12,7 @@ final class PhotoCell: UICollectionViewCell {
     static let reuseIdentifier = "PhotoCell"
     
     // замыкание в ячейке
-    var likeTapped: (() -> Void)?
+   var likeTapped: (() -> Void)?
     
     // MARK: Outlets
     
@@ -36,7 +36,7 @@ final class PhotoCell: UICollectionViewCell {
     
     // MARK: Configure
     
-    // конфигурируем контрол и замыкание
+     //конфигурируем контрол и замыкание
     func configure(photoModel: PhotoModel) {
 		likeControl.configure(
 			isLike: photoModel.isLiked,
